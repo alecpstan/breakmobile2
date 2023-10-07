@@ -1,6 +1,7 @@
+import 'package:breakmobile2/components/circles.dart';
 import 'package:breakmobile2/main.dart';
 import 'package:flutter/material.dart';
-import 'package:breakmobile2/components/uicomponents.dart';
+import 'package:breakmobile2/components/uiTextBlocks.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -22,23 +23,26 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     final PageController controller = PageController();
+    const String testThemeColor = 'history';
 
     return Container(
       color: Colors.white,
       child: Column(
         children: [
           SizedBox(height: 100),
+          Avatar(),
           MainHeadingBlock(
               titleText: 'Standard abilities',
               bodyText: 'Available for selection at Rank 2 or higher.',
-              themeColor: 'blue'
+              themeColor: testThemeColor,
           ),
           SubHeadingBlock(
             titleText: 'Heading 2',
             bodyText:
                 'Unlike most folk living on the Outer World, Rai-Neko are educated from a young age in advanced technology.',
-            themeColor: 'blue',
+            themeColor: testThemeColor,
             detailText: [
               {
                 'type': 'heading', 'text': 'Advantages'

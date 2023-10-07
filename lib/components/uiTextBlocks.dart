@@ -3,18 +3,16 @@ import 'package:breakmobile2/tools/colors_used.dart' as colors_used;
 import 'package:breakmobile2/tools/tools.dart' as tool;
 import 'package:collection/collection.dart';
 
-import '../tools/colors_used.dart';
-
 // ***********************************************************
 class MainHeadingBlock extends StatelessWidget {
   final String titleText;
-  final String bodyText;
+  final String? bodyText;
   final String themeColor;
 
   const MainHeadingBlock(
       {super.key,
       required this.titleText,
-      required this.bodyText,
+        this.bodyText,
       required this.themeColor});
 
   @override
@@ -142,13 +140,16 @@ class _HeaderBox extends StatelessWidget {
 
 // ***********************************************************
 class _DescriptionText extends StatelessWidget {
-  final String text;
+  final String? text;
   final int textColor = Colors.black.value;
 
-  _DescriptionText({super.key, required this.text});
+  _DescriptionText({super.key, this.text});
 
   @override
   Widget build(BuildContext context) {
+
+    if(text == null) { return SizedBox(height: 0, width: 0,); }
+
     return Material(
       child: Row(
         children: [
@@ -158,7 +159,7 @@ class _DescriptionText extends StatelessWidget {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  text,
+                  text!,
                   style: TextStyle(
                     color: Color(textColor),
                     fontWeight: FontWeight.normal,
