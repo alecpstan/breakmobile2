@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:breakmobile2/tools/colors_used.dart' as colors_used;
+import 'package:breakmobile2/common/colors_used.dart' as colors_used;
 import 'package:breakmobile2/tools/tools.dart' as tool;
 import 'package:collection/collection.dart';
 

@@ -1,7 +1,8 @@
-import 'package:breakmobile2/components/circles.dart';
+
 import 'package:breakmobile2/main.dart';
 import 'package:flutter/material.dart';
-import 'package:breakmobile2/components/uiTextBlocks.dart';
+import 'package:breakmobile2/components/text_objects.dart';
+import 'package:breakmobile2/components/combat_tile_objects.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,8 +32,8 @@ class _HomePageState extends State<HomePage> {
       color: Colors.white,
       child: Column(
         children: [
-          SizedBox(height: 100),
-          Avatar(),
+          SizedBox(height: 50),
+          CombatHeader(heartsRemaining: 13, heartsTotal: 20),
           MainHeadingBlock(
               titleText: 'Standard abilities',
               bodyText: 'Available for selection at Rank 2 or higher.',
