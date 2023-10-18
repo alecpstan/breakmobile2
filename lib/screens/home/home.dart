@@ -1,5 +1,7 @@
 
+import 'package:breakmobile2/custom_icons.dart';
 import 'package:breakmobile2/main.dart';
+import 'package:breakmobile2/screens/home/abilities.dart';
 import 'package:flutter/material.dart';
 import 'package:breakmobile2/components/text_objects.dart';
 import 'package:breakmobile2/components/combat_tile_objects.dart';
@@ -25,50 +27,21 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    final PageController controller = PageController();
-    const String testThemeColor = 'history';
-
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          SizedBox(height: 50),
-          CombatHeader(heartsRemaining: 13, heartsTotal: 20),
-          MainHeadingBlock(
-              titleText: 'Standard abilities',
-              bodyText: 'Available for selection at Rank 2 or higher.',
-              themeColor: testThemeColor,
-          ),
-          SubHeadingBlock(
-            titleText: 'Heading 2',
-            bodyText:
-                'Unlike most folk living on the Outer World, Rai-Neko are educated from a young age in advanced technology.',
-            themeColor: testThemeColor,
-            detailText: [
-              {
-                'type': 'heading', 'text': 'Advantages'
-              },
-              {
-                'type': 'content',
-                'text':
-                    'You may choose a consumable material (such as lantern oil or a treat) to act as a deterrent to an Unearthly Adversary.',
-                'icon': 'tick',
-                'icon_color': 'green_bright',
-              },
-              {
-                'type': 'indent',
-                'text': 'Glittering: +1 on Attack rolls.',
-                'icon': 'warning'
-              },
-              {'type': 'heading', 'text': 'Disadvantages'},
-              {
-                'type': 'content',
-                'text':
-                    'Unearthy Adversaries include: Asura, Devas, Demons, Undead, Unshaped, or any creature with 4 or more Allegiance points.'
-              },
-            ],
-          ),
-        ],
+    return SafeArea(
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            CombatHeader(heartsRemaining: 5, heartsTotal: 8),
+            Divider(),
+            // TabBar(
+            //     tabs: [
+            //       Tab(icon: Icon(Icons.bar_chart)),
+            //       Tab(icon: Icon(Icons.shopping_bag)),
+            //     ],
+            // ),
+          ]
+        ),
       ),
     );
   }

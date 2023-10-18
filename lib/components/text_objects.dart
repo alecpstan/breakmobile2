@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:breakmobile2/common/colors_used.dart' as colors_used;
-import 'package:breakmobile2/tools/tools.dart' as tool;
+import 'package:breakmobile2/common/tools.dart' as tool;
 import 'package:collection/collection.dart';
 
 // ***********************************************************
@@ -12,7 +12,7 @@ class MainHeadingBlock extends StatelessWidget {
   const MainHeadingBlock(
       {super.key,
       required this.titleText,
-        this.bodyText,
+      this.bodyText,
       required this.themeColor});
 
   @override
@@ -45,7 +45,7 @@ class SubHeadingBlock extends StatelessWidget {
       {super.key,
       required this.titleText,
       required this.bodyText,
-      required this.detailText,
+      this.detailText,
       this.themeColor = 'purple',
       this.icon = 'arrow'});
 
@@ -53,11 +53,11 @@ class SubHeadingBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     // Make the icon color default to the theme if null
     detailText?.forEachIndexed((index, element) {
-      if(element['icon_color'] == null) {
+      if (element['icon_color'] == null) {
         detailText?[index].addAll({'icon_color': themeColor});
-      };
+      }
     });
-  
+
     return Container(
       color: Colors.white,
       child: Column(
@@ -81,7 +81,7 @@ class _HeaderBox extends StatelessWidget {
   final int headerLevel;
   final String themeColor;
 
-  _HeaderBox(
+  const _HeaderBox(
       {super.key,
       required this.text,
       this.headerLevel = 0,
@@ -147,8 +147,12 @@ class _DescriptionText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    if(text == null) { return SizedBox(height: 0, width: 0,); }
+    if (text == null) {
+      return const SizedBox(
+        height: 0,
+        width: 0,
+      );
+    }
 
     return Material(
       child: Row(
@@ -210,10 +214,11 @@ class _DetailTextBlock extends StatelessWidget {
                     switch (currentItem['type']) {
                       case 'heading':
                         {
-                          return _DetailTextSubItemHeading(
+                          return _DetailTextSubItem(
                             text: currentItem['text'],
                             iconName: currentItem['icon'],
                             iconColor: currentItem['icon_color'],
+                            isHeading: true,
                           );
                         }
                       case 'content':
@@ -226,10 +231,11 @@ class _DetailTextBlock extends StatelessWidget {
                         }
                       case 'indent':
                         {
-                          return _DetailTextSubItemIndented(
+                          return _DetailTextSubItem(
                             text: currentItem['text'],
                             iconName: currentItem['icon'],
                             iconColor: currentItem['icon_color'],
+                            indented: true,
                           );
                         }
                       default:
@@ -255,11 +261,16 @@ class _DetailTextSubItem extends StatelessWidget {
   final String text;
   final String? iconName;
   final String? iconColor;
+  final bool indented;
+  final bool isHeading;
+
   const _DetailTextSubItem(
       {super.key,
       required this.text,
       this.iconName,
-      this.iconColor});
+      this.iconColor,
+      this.indented = false,
+      this.isHeading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -269,11 +280,11 @@ class _DetailTextSubItem extends StatelessWidget {
         SizedBox(
           width: 20,
           child: Padding(
-            padding: const EdgeInsets.only(left: 5),
+            padding: EdgeInsets.only(left: indented ? 15 : 5),
             child: Icon(
               tool.iconLookup(iconName ?? 'arrow_right'),
-              color: Color(
-                  colors_used.dotIconColor[iconColor ?? 'purple'] ?? Colors.red.value),
+              color: Color(colors_used.dotIconColor[iconColor ?? 'purple'] ??
+                  Colors.red.value),
             ),
           ),
         ),
@@ -282,12 +293,13 @@ class _DetailTextSubItem extends StatelessWidget {
           child: Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 5, left: 10, top: 5),
+              padding:
+                  EdgeInsets.only(bottom: 5, left: indented ? 25 : 10, top: 5),
               child: Text(
                 text,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.black,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: isHeading ? FontWeight.bold: FontWeight.normal,
                   fontSize: 13,
                   wordSpacing: 1.1,
                 ),
@@ -300,102 +312,4 @@ class _DetailTextSubItem extends StatelessWidget {
   }
 }
 
-// ***********************************************************
-class _DetailTextSubItemHeading extends StatelessWidget {
-  final String text;
-  final String? iconName;
-  final String? iconColor;
-  const _DetailTextSubItemHeading(
-      {super.key,
-      required this.text,
-      this.iconName,
-      this.iconColor});
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: 20,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: Icon(
-              tool.iconLookup(iconName ?? 'arrow_right'),
-              color: Color(
-                  colors_used.dotIconColor[iconColor ?? 'purple'] ?? Colors.red.value),
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 15,
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 5, left: 10, top: 5),
-              child: Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                  wordSpacing: 1.1,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ***********************************************************
-class _DetailTextSubItemIndented extends StatelessWidget {
-  final String text;
-  final String? iconName;
-  final String? iconColor;
-  const _DetailTextSubItemIndented(
-      {super.key,
-      required this.text,
-      this.iconName = 'arrow_right',
-      this.iconColor = 'purple'});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: 20,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Icon(
-              tool.iconLookup(iconName ?? 'arrow_right'),
-              color: Color(
-                  colors_used.dotIconColor[iconColor ?? 'purple'] ?? Colors.red.value),
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 15,
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 5, left: 25, top: 5),
-              child: Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 13,
-                  wordSpacing: 1.1,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
