@@ -37,7 +37,7 @@ class MainHeadingBlock extends StatelessWidget {
 class SubHeadingBlock extends StatelessWidget {
   final String titleText;
   final String bodyText;
-  final List<Map<String, dynamic>>? detailText;
+  final List<List<Map<String, dynamic>>>? detailText;
   final String themeColor;
   final String icon;
 
@@ -53,9 +53,11 @@ class SubHeadingBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     // Make the icon color default to the theme if null
     detailText?.forEachIndexed((index, element) {
-      if (element['icon_color'] == null) {
-        detailText?[index].addAll({'icon_color': themeColor});
-      }
+      element.forEachIndexed((index2, element2) {
+        if (element2['icon_color'] == null) {
+          detailText?[index][index2].addAll({'icon_color': themeColor});
+        }
+      });
     });
 
     return Container(
@@ -68,7 +70,8 @@ class SubHeadingBlock extends StatelessWidget {
             themeColor: themeColor,
           ),
           _DescriptionText(text: bodyText),
-          _DetailTextBlock(text: detailText),
+          for(List<Map<String, dynamic>>detailBlock in detailText!)
+            _DetailTextBlock(text: detailBlock),
         ],
       ),
     );
@@ -195,7 +198,7 @@ class _DetailTextBlock extends StatelessWidget {
             Expanded(
               child: Container(
                 margin: const EdgeInsets.only(
-                    top: 0, bottom: 20, left: 15, right: 15),
+                    top: 0, bottom: 5, left: 15, right: 15),
                 decoration: const BoxDecoration(
                   color: Color(colors_used.paleGrey),
                   borderRadius: BorderRadius.only(

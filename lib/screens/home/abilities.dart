@@ -1,48 +1,69 @@
+import 'package:breakmobile2/data/ability_data.dart';
+import 'package:breakmobile2/models/ability_models.dart';
 import 'package:flutter/material.dart';
 import '../../components/text_objects.dart';
+import '../../data/ability_data.dart';
 
 class Abilities extends StatelessWidget {
-  const Abilities({super.key});
+  AbilityList abilityList = AbilityList();
+
+  Abilities({super.key});
 
   get testThemeColor => 'calling';
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          MainHeadingBlock(
-            titleText: 'Standard abilities',
-            bodyText: 'Available for selection at Rank 2 or higher.',
-            themeColor: testThemeColor,
-          ),
+  AbilityList getAbilityData() {
+    return TestData().abilityList;
+  }
+
+  Column childrenBlock (AbilitySource source) {
+    return Column(
+      children: [
+        MainHeadingBlock(
+            titleText: source.humanReadable,
+            themeColor: source.colorTheme),
+        for (var subHeading in abilityList.abilities
+            .where((element) => element.source == AbilitySource.species))
           SubHeadingBlock(
-            titleText: 'Heading 2',
-            bodyText:
-                'Unlike most folk living on the Outer World, Rai-Neko are educated from a young age in advanced technology.',
-            themeColor: testThemeColor,
+            titleText: subHeading.title,
+            bodyText: subHeading.body,
+            themeColor: subHeading.source.colorTheme,
             detailText: [
-              {'type': 'heading', 'text': 'Advantages'},
-              {
-                'type': 'content',
-                'text':
-                    'You may choose a consumable material (such as lantern oil or a treat) to act as a deterrent to an Unearthly Adversary.',
-                'icon': 'tick',
-                'icon_color': 'green_bright',
-              },
-              {
-                'type': 'indent',
-                'text': 'Glittering: +1 on Attack rolls.',
-                'icon': 'warning'
-              },
-              {'type': 'heading', 'text': 'Disadvantages'},
-              {
-                'type': 'content',
-                'text':
-                    'Unearthy Adversaries include: Asura, Devas, Demons, Undead, Unshaped, or any creature with 4 or more Allegiance points.'
-              },
+              for (var section in subHeading.sections)
+                section.sectionContents,
             ],
           ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    abilityList = getAbilityData();
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          for (var abilitySource in AbilitySource.values)
+            Column(
+              children: [ // Only add heading and list if an ability exists with a source
+                if(abilityList.abilities.indexWhere((element) => abilitySource == element.source) != -1)
+                  MainHeadingBlock(
+                      titleText: abilitySource.humanReadable,
+                      themeColor: abilitySource.colorTheme
+                  ),
+                  for (var subHeading in abilityList.abilities
+                      .where((element) => element.source.name == abilitySource.name))
+                    SubHeadingBlock(
+                      titleText: subHeading.title,
+                      bodyText: subHeading.body,
+                      themeColor: subHeading.source.colorTheme,
+                      detailText: [
+                        for (var section in subHeading.sections)
+                          section.sectionContents,
+                      ],
+                    ),
+              ],
+            ),
         ],
       ),
     );

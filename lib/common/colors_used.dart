@@ -33,7 +33,7 @@ final Map<String,List<int>> textColorLookup = {
   'history' :[Colors.white.value, 0xff4eb2af],
   'quirk' :[Colors.white.value, 0xff7ea34f],
   'identity' :[Colors.white.value, 0xffe37f3b],
-  'items:' :[Colors.white.value, 0xffd94081],
+  'items' :[Colors.white.value, 0xffd94081],
 };
 
 final Map<String, int> dotIconColor = {

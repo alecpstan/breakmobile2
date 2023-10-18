@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:breakmobile2/custom_icons.dart';
+import 'package:breakmobile2/common/custom_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 import 'package:flutter/material.dart';

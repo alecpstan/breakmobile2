@@ -1,7 +1,9 @@
 
-import 'package:breakmobile2/custom_icons.dart';
+import 'package:breakmobile2/common/custom_icons.dart';
 import 'package:breakmobile2/main.dart';
 import 'package:breakmobile2/screens/home/abilities.dart';
+import 'package:breakmobile2/screens/home/identity.dart';
+import 'package:breakmobile2/screens/home/inventory.dart';
 import 'package:flutter/material.dart';
 import 'package:breakmobile2/components/text_objects.dart';
 import 'package:breakmobile2/components/combat_tile_objects.dart';
@@ -14,6 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final _controller = PageController(initialPage: 0);
+
   @override
   void initState() {
     super.initState();
@@ -21,6 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -33,7 +39,17 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             CombatHeader(heartsRemaining: 5, heartsTotal: 8),
-            Divider(),
+            const Divider(color: Colors.black),
+            Expanded(
+              child: PageView(
+                controller: _controller,
+                children: [
+                  Abilities(),
+                  Inventory(),
+                  Identity(),
+                ],
+              ),
+            ),
             // TabBar(
             //     tabs: [
             //       Tab(icon: Icon(Icons.bar_chart)),
