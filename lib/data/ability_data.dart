@@ -1,10 +1,11 @@
 
 import 'package:breakmobile2/models/ability_models.dart';
 
-
 class TestData {
+
   final AbilityList _abilityList = AbilityList();
 
+  // Constructor
   TestData() {
     _abilityList.addAbility(
       Ability(
@@ -187,5 +188,4 @@ class TestData {
   }
 
   get abilityList => _abilityList;
-
 }

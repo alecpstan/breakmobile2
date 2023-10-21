@@ -1,11 +1,9 @@
 
-import 'package:breakmobile2/common/custom_icons.dart';
 import 'package:breakmobile2/main.dart';
 import 'package:breakmobile2/screens/home/abilities.dart';
 import 'package:breakmobile2/screens/home/identity.dart';
 import 'package:breakmobile2/screens/home/inventory.dart';
 import 'package:flutter/material.dart';
-import 'package:breakmobile2/components/text_objects.dart';
 import 'package:breakmobile2/components/combat_tile_objects.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,9 +32,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
     return SafeArea(
-      child: Container(
-        color: Colors.white,
-        child: Column(
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(onPressed: () {  },) ,
+        body: Column(
           children: [
             CombatHeader(heartsRemaining: 5, heartsTotal: 8),
             const Divider(color: Colors.black),

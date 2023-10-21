@@ -2,9 +2,9 @@ import 'package:breakmobile2/data/ability_data.dart';
 import 'package:breakmobile2/models/ability_models.dart';
 import 'package:flutter/material.dart';
 import '../../components/text_objects.dart';
-import '../../data/ability_data.dart';
 
 class Abilities extends StatelessWidget {
+
   AbilityList abilityList = AbilityList();
 
   Abilities({super.key});
@@ -21,7 +21,7 @@ class Abilities extends StatelessWidget {
         MainHeadingBlock(
             titleText: source.humanReadable,
             themeColor: source.colorTheme),
-        for (var subHeading in abilityList.abilities
+        for (var subHeading in abilityList!.abilities
             .where((element) => element.source == AbilitySource.species))
           SubHeadingBlock(
             titleText: subHeading.title,
@@ -46,12 +46,12 @@ class Abilities extends StatelessWidget {
           for (var abilitySource in AbilitySource.values)
             Column(
               children: [ // Only add heading and list if an ability exists with a source
-                if(abilityList.abilities.indexWhere((element) => abilitySource == element.source) != -1)
+                if(abilityList?.abilities.indexWhere((element) => abilitySource == element.source) != -1)
                   MainHeadingBlock(
                       titleText: abilitySource.humanReadable,
                       themeColor: abilitySource.colorTheme
                   ),
-                  for (var subHeading in abilityList.abilities
+                  for (var subHeading in abilityList!.abilities
                       .where((element) => element.source.name == abilitySource.name))
                     SubHeadingBlock(
                       titleText: subHeading.title,
