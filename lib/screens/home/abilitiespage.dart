@@ -12,7 +12,7 @@ class AbilitiesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // return FutureBuilder when characterData is ready
     return FutureBuilder(
-      future: characterData.initialiseAbilityListDemoData(),
+      future: characterData.initialiseAbilityList(),
       builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
         // If characterData is not ready and list is empty, show loading indicator
         if ((snapshot.connectionState != ConnectionState.done) && (characterData.abilityList.abilities.length == 0))

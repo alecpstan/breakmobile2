@@ -73,65 +73,28 @@ class AbilityDetailSection {
     _sectionContents = sectionContents;
   }
   // Getters
-  Map<String, dynamic> get sectionContents =>
-      _sectionContents;
+  Map<String, dynamic> get sectionContents => _sectionContents;
 }
 
 // Tools used to create abilities
 // Create an ability from json
 Ability abilityFromJson(Map<String, dynamic> json) {
-  print('===> Creating ability: ${json['title']}');
-
   List<AbilityDetailSection> abilityDetailSections = [];
 
   if (json['sections'] != null) {
-    //print('sections: ${json.['sections']}');
-
-    //for each section in json['sections'], print the section
     json['sections'].forEach((section) {
-      print('section: $section');
-
-      //abilityDetailSections.add(AbilityDetailSection(sectionContents: section));
+      abilityDetailSections.add(AbilityDetailSection(sectionContents: section));
     });
   }
 
-  Ability ability = Ability(
+  return Ability(
     source: AbilitySource.values
         .firstWhere((element) => element.name == json['source']),
     title: json['title'] as String,
     body: json['body'] as String,
-    detailSections: abilityDetailSections.isNotEmpty ? abilityDetailSections : null,
-
-    // detailSections:
-    // [
-    //   AbilityDetailSection(
-    //     sectionContents: [
-    //       {'type': 'heading', 'text': 'Advantages'},
-    //       {
-    //         'type': 'content',
-    //         'text':
-    //         'You may choose a consumable material (such as lantern oil or a treat) to act as a deterrent to an Unearthly Adversary.',
-    //         'icon': 'tick',
-    //         'icon_color': 'green_bright',
-    //       },
-    //       {
-    //         'type': 'indent',
-    //         'text': 'Glittering: +1 on Attack rolls.',
-    //         'icon': 'warning'
-    //       },
-    //       {'type': 'heading', 'text': 'Disadvantages'},
-    //       {
-    //         'type': 'content',
-    //         'text':
-    //         'Unearthy Adversaries include: Asura, Devas, Demons, Undead, Unshaped, or any creature with 4 or more Allegiance points.'
-    //       },
-    //     ],
-    //   ),
-    // ],
+    detailSections:
+        abilityDetailSections.isNotEmpty ? abilityDetailSections : null,
   );
-
-  print('===>>> ${ability.title} created');
-  return ability;
 }
 
 // Enum holding the different sources of abilities
