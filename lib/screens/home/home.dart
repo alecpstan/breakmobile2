@@ -18,9 +18,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // Initialize character data and wait for completion
-    //characterData.initialiseAbilityList();
-
     super.initState();
   }
 
@@ -38,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {characterData.initialiseAbilityList();},
         ),
         body: Column(children: [
           CombatHeader(heartsRemaining: 5, heartsTotal: 8),

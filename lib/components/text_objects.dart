@@ -36,7 +36,7 @@ class MainHeadingBlock extends StatelessWidget {
 class SubHeadingBlock extends StatelessWidget {
   final String titleText;
   final String bodyText;
-  final List<List<Map<String, dynamic>>>? detailText;
+  final List<Map<String, dynamic>>? detailText;
   final String themeColor;
   final String icon;
 
@@ -61,19 +61,17 @@ class SubHeadingBlock extends StatelessWidget {
             themeColor: themeColor,
           ),
           _DescriptionText(text: bodyText),
-          // for (List<Map<String, dynamic>> detailBlock in detailText!)
-          //   // For each detailText block, create a _DetailTextBlock widget
-          //   // Before passing detailBlock, check if each member includes 'icon_color' and if not add the key with a value equal to tht theme
-          //   // If the member includes 'icon_color' then check if the value is null and if so, add the key with a value equal to tht theme
-          //   _DetailTextBlock(
-          //     textBlockData: [
-          //       for (Map<String, dynamic> item in detailBlock)
-          //         {
-          //           ...item,
-          //           'icon_color': item['icon_color'] ?? themeColor,
-          //         }
-          //     ],
-          //   ),
+          if(detailText!.isNotEmpty) _DetailTextBlock(
+            // Before passing detailText to _DetailTextBlock, check if any elements in the list detailText with key 'icon_color' are not set.
+            // If not set, set them to the themeColor
+            textBlockData: [
+              for (Map<String, dynamic> item in detailText!)
+                {
+                  ...item,
+                  'icon_color': item['icon_color'] ?? themeColor,
+                }
+            ],
+          ),
         ],
       ),
     );
@@ -243,6 +241,10 @@ class _DetailTextBlock extends StatelessWidget {
                             iconColor: currentItem['icon_color'],
                             indented: true,
                           );
+                        }
+                        case 'divider':
+                        {
+                          return const Divider(color: Colors.white, thickness: 5,);
                         }
                       default:
                         {

@@ -1,19 +1,22 @@
+
 import 'package:breakmobile2/data/character_data.dart';
 import 'package:breakmobile2/models/ability_models.dart';
 import 'package:flutter/material.dart';
 import '../../components/text_objects.dart';
 
 class AbilitiesPage extends StatelessWidget {
+
   AbilitiesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     // return FutureBuilder when characterData is ready
     return FutureBuilder(
-      future: characterData.initialiseAbilityList(),
+      future: characterData.initialiseAbilityListDemoData(),
       builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-        // If characterData is not ready, show loading indicator
-        if (snapshot.connectionState != ConnectionState.done) {
+        // If characterData is not ready and list is empty, show loading indicator
+        if ((snapshot.connectionState != ConnectionState.done) && (characterData.abilityList.abilities.length == 0))
+        {
           return const Center(child: CircularProgressIndicator());
         }
         // If characterData is ready, show abilities page
@@ -53,44 +56,17 @@ class ScrollingAbilityList extends StatelessWidget {
                     titleText: currentAbility.title,
                     bodyText: currentAbility.body,
                     themeColor: currentAbility.source.colorTheme,
-                    detailText: [
-                      for (var section in currentAbility.sections)
-                        section.sectionContents,
-                    ],
+                    detailText: currentAbility.detailSections.map((e) => e.sectionContents).toList(),
                   ),
+
               ],
             ),
+          if (characterData.abilityList.abilities.length == 0)
+            const Center(
+              child: Text('No abilities yet'),),
         ],
+
       ),
-    );
-  }
-}
-
-
-class ChildrenBlock extends StatelessWidget {
-  final AbilitySource source;
-
-  const ChildrenBlock({super.key, required this.source});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        MainHeadingBlock(
-            titleText: source.colorTheme, themeColor: source.colorTheme),
-        for (var subHeading in AbilityList()
-            .abilities
-            .where((element) => element.source == AbilitySource.species))
-          SubHeadingBlock(
-            titleText: subHeading.title,
-            bodyText: subHeading.body,
-            themeColor: subHeading.source.colorTheme,
-            detailText: [
-              for (AbilitySection section in subHeading.sections)
-                section.sectionContents,
-            ],
-          ),
-      ],
     );
   }
 }
