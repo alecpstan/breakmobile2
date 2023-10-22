@@ -1,5 +1,41 @@
-// Class holding the contents of an ability
+// Class holding a list of abilities
+import 'dart:ffi';
 
+class AbilityList {
+  List<Ability> _abilities = [];
+
+  AbilityList();
+
+  List<Ability> get abilities => _abilities;
+
+  // Get ability list by source
+  List<Ability> getAbilityListBySource(AbilitySource source) {
+    return _abilities.where((element) => element.source == source).toList();
+  }
+
+  // Sort ability list by source then alphabetically
+  sortAbilityList() {
+    _abilities.sort((a, b) => a.source.name.compareTo(b.source.name));
+    _abilities.sort((a, b) => a.title.compareTo(b.title));
+  }
+
+  //Add ability to ability list
+  addAbility(Ability ability) {
+    abilities.add(ability);
+  }
+
+  // Remove ability form ability list by name
+  removeAbility(String abilityName) {
+    abilities.removeWhere((element) => element.title == abilityName);
+  }
+
+  // Remove ability form ability list by index
+  removeAbilityByIndex(int index) {
+    abilities.removeAt(index);
+  }
+}
+
+// Class holding the contents of an ability
 class Ability {
   late AbilitySource _source;
   late String _title;
@@ -18,6 +54,13 @@ class Ability {
     _sections = sections;
   }
 
+  Ability.fromJson(Map<String, dynamic> json)
+      : _source = AbilitySource.values
+            .firstWhere((element) => element.name == json['source']),
+        _title = json['title'] as String,
+        _body = json['body'] as String,
+        _sections = [];//json['sections'] as List<AbilitySection>;
+
   // Getters
   AbilitySource get source => _source;
 
@@ -26,8 +69,6 @@ class Ability {
   String get body => _body;
 
   List<AbilitySection> get sections => List.unmodifiable(_sections);
-
-  //Ability getAbilityFromJson() {}
 }
 
 // Class holding the contents of the details section of an ability

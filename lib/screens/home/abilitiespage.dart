@@ -1,44 +1,60 @@
-import 'package:breakmobile2/data/ability_data.dart';
+import 'package:breakmobile2/data/character_data.dart';
 import 'package:breakmobile2/models/ability_models.dart';
 import 'package:flutter/material.dart';
 import '../../components/text_objects.dart';
 
 class AbilitiesPage extends StatelessWidget {
-  AbilityList abilityList = AbilityList();
-
   AbilitiesPage({super.key});
-
-  //get testThemeColor => 'calling';
-
-  AbilityList getAbilityData() {
-    return CharacterData().abilityList;
-  }
 
   @override
   Widget build(BuildContext context) {
-    abilityList = getAbilityData();
+    // return FutureBuilder when characterData is ready
+    return FutureBuilder(
+      future: characterData.initialiseAbilityList(),
+      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+        // If characterData is not ready, show loading indicator
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        // If characterData is ready, show abilities page
+        else {
+          return ScrollingAbilityList();
+        }
+      },
+    );
+  }
+}
 
+class ScrollingAbilityList extends StatelessWidget {
+  const ScrollingAbilityList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          for (var abilitySource in AbilitySource.values)
+          // For each ability source, create a heading and list of abilities
+          for (AbilitySource abilitySource in AbilitySource.values)
             Column(
               children: [
                 // Only add heading and list if an ability exists with a source
-                if (abilityList?.abilities.indexWhere(
+                if (characterData.abilityList.abilities.indexWhere(
                         (element) => abilitySource == element.source) !=
                     -1)
                   MainHeadingBlock(
-                      titleText: abilitySource.humanReadable,
-                      themeColor: abilitySource.colorTheme),
-                for (var subHeading in abilityList.abilities.where(
-                    (element) => element.source.name == abilitySource.name))
+                    titleText: abilitySource.humanReadable,
+                    themeColor: abilitySource.colorTheme,
+                  ),
+                // Iterate through each ability with the current source
+                for (Ability currentAbility in characterData
+                    .abilityList.abilities
+                    .where((element) => element.source == abilitySource))
                   SubHeadingBlock(
-                    titleText: subHeading.title,
-                    bodyText: subHeading.body,
-                    themeColor: subHeading.source.colorTheme,
+                    titleText: currentAbility.title,
+                    bodyText: currentAbility.body,
+                    themeColor: currentAbility.source.colorTheme,
                     detailText: [
-                      for (var section in subHeading.sections)
+                      for (var section in currentAbility.sections)
                         section.sectionContents,
                     ],
                   ),
@@ -49,6 +65,7 @@ class AbilitiesPage extends StatelessWidget {
     );
   }
 }
+
 
 class ChildrenBlock extends StatelessWidget {
   final AbilitySource source;

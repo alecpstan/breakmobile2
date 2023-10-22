@@ -46,7 +46,8 @@ class SubHeadingBlock extends StatelessWidget {
       required this.bodyText,
       this.detailText,
       this.themeColor = 'calling',
-      this.icon = 'arrow'});
+      this.icon = 'arrow',
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -60,19 +61,19 @@ class SubHeadingBlock extends StatelessWidget {
             themeColor: themeColor,
           ),
           _DescriptionText(text: bodyText),
-          for (List<Map<String, dynamic>> detailBlock in detailText!)
-            // For each detailText block, create a _DetailTextBlock widget
-            // Before passing detailBlock, check if each member includes 'icon_color' and if not add the key with a value equal to tht theme
-            // If the member includes 'icon_color' then check if the value is null and if so, add the key with a value equal to tht theme
-            _DetailTextBlock(
-              textBlockData: [
-                for (Map<String, dynamic> item in detailBlock)
-                  {
-                    ...item,
-                    'icon_color': item['icon_color'] ?? themeColor,
-                  }
-              ],
-            ),
+          // for (List<Map<String, dynamic>> detailBlock in detailText!)
+          //   // For each detailText block, create a _DetailTextBlock widget
+          //   // Before passing detailBlock, check if each member includes 'icon_color' and if not add the key with a value equal to tht theme
+          //   // If the member includes 'icon_color' then check if the value is null and if so, add the key with a value equal to tht theme
+          //   _DetailTextBlock(
+          //     textBlockData: [
+          //       for (Map<String, dynamic> item in detailBlock)
+          //         {
+          //           ...item,
+          //           'icon_color': item['icon_color'] ?? themeColor,
+          //         }
+          //     ],
+          //   ),
         ],
       ),
     );

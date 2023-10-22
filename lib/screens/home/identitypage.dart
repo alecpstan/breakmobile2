@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class Identity extends StatelessWidget {
-  const Identity({super.key});
+class IdentityPage extends StatelessWidget {
+  const IdentityPage({super.key});
 
   @override
   Widget build(BuildContext context) {

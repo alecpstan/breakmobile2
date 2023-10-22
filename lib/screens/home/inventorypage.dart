@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class Inventory extends StatelessWidget {
-  const Inventory({super.key});
+class InventoryPage extends StatelessWidget {
+  const InventoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {

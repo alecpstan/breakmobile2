@@ -1,3 +1,4 @@
+import 'package:breakmobile2/data/character_data.dart';
 import 'package:breakmobile2/main.dart';
 import 'package:breakmobile2/screens/home/abilitiespage.dart';
 import 'package:breakmobile2/screens/home/identitypage.dart';
@@ -17,6 +18,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    // Initialize character data and wait for completion
+    //characterData.initialiseAbilityList();
+
     super.initState();
   }
 
@@ -28,6 +32,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -41,8 +48,8 @@ class _HomePageState extends State<HomePage> {
               controller: _controller,
               children: [
                 AbilitiesPage(),
-                Inventory(),
-                Identity(),
+                InventoryPage(),
+                IdentityPage(),
               ],
             ),
           ),
