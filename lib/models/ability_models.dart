@@ -1,41 +1,48 @@
-
-class AbilityList {
-  List<Ability> _abilities = [];
-
-  AbilityList();
-
-  List<Ability> get abilities => _abilities;
-
-  addAbility (Ability ability) {
-    abilities.add(ability);
-    //_abilityList.sort((a, b) => a.source.name.compareTo(b.source.name));
-  }
-
-  removeAbility (String abilityName) {
-    abilities.removeWhere((element) => element.title == abilityName);
-  }
-
-}
+// Class holding the contents of an ability
 
 class Ability {
-  AbilitySource source;
-  String title;
-  String body;
-  List<AbilitySection> sections;
+  late AbilitySource _source;
+  late String _title;
+  late String _body;
+  late List<AbilitySection> _sections;
 
-  Ability(
-      {required this.source,
-      required this.title,
-      required this.body,
-      required this.sections});
+  Ability({
+    required source,
+    required title,
+    required body,
+    required sections,
+  }) {
+    _source = source;
+    _title = title;
+    _body = body;
+    _sections = sections;
+  }
+
+  // Getters
+  AbilitySource get source => _source;
+
+  String get title => _title;
+
+  String get body => _body;
+
+  List<AbilitySection> get sections => List.unmodifiable(_sections);
+
+  //Ability getAbilityFromJson() {}
 }
 
+// Class holding the contents of the details section of an ability
 class AbilitySection {
-  final List<Map<String, dynamic>> sectionContents;
+  late final List<Map<String, dynamic>> _sectionContents;
 
-  AbilitySection({required this.sectionContents});
+  AbilitySection({required sectionContents}) {
+    _sectionContents = sectionContents;
+  }
+  // Getters
+  List<Map<String, dynamic>> get sectionContents =>
+      List.unmodifiable(_sectionContents);
 }
 
+// Enum holding the different sources of abilities
 enum AbilitySource implements Comparable<AbilitySource> {
   calling(colorTheme: 'calling', humanReadable: 'Calling Abilities'),
   species(colorTheme: 'species', humanReadable: 'Species Abilities'),
@@ -56,4 +63,9 @@ enum AbilitySource implements Comparable<AbilitySource> {
   int compareTo(AbilitySource otherSource) => otherSource.name.compareTo(name);
 }
 
-enum VisualStyle { heading, content, indent }
+// Enum holding the different visual styles for ability sections
+enum AbilityVisualStyle {
+  heading,
+  content,
+  indent,
+}

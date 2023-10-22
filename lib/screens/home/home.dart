@@ -1,8 +1,7 @@
-
 import 'package:breakmobile2/main.dart';
-import 'package:breakmobile2/screens/home/abilities.dart';
-import 'package:breakmobile2/screens/home/identity.dart';
-import 'package:breakmobile2/screens/home/inventory.dart';
+import 'package:breakmobile2/screens/home/abilitiespage.dart';
+import 'package:breakmobile2/screens/home/identitypage.dart';
+import 'package:breakmobile2/screens/home/inventorypage.dart';
 import 'package:flutter/material.dart';
 import 'package:breakmobile2/components/combat_tile_objects.dart';
 
@@ -14,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final _controller = PageController(initialPage: 0);
 
   @override
@@ -30,32 +28,31 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {  },) ,
-        body: Column(
-          children: [
-            CombatHeader(heartsRemaining: 5, heartsTotal: 8),
-            const Divider(color: Colors.black),
-            Expanded(
-              child: PageView(
-                controller: _controller,
-                children: [
-                  Abilities(),
-                  Inventory(),
-                  Identity(),
-                ],
-              ),
-            ),
-            // TabBar(
-            //     tabs: [
-            //       Tab(icon: Icon(Icons.bar_chart)),
-            //       Tab(icon: Icon(Icons.shopping_bag)),
-            //     ],
-            // ),
-          ]
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
         ),
+        body: Column(children: [
+          CombatHeader(heartsRemaining: 5, heartsTotal: 8),
+          const Divider(color: Colors.black),
+          Expanded(
+            child: PageView(
+              controller: _controller,
+              children: [
+                AbilitiesPage(),
+                Inventory(),
+                Identity(),
+              ],
+            ),
+          ),
+          // TabBar(
+          //     tabs: [
+          //       Tab(icon: Icon(Icons.bar_chart)),
+          //       Tab(icon: Icon(Icons.shopping_bag)),
+          //     ],
+          // ),
+        ]),
       ),
     );
   }

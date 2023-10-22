@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:breakmobile2/common/colors_used.dart' as colors_used;
 import 'package:breakmobile2/common/tools.dart' as tool;
-import 'package:collection/collection.dart';
 
 // ***********************************************************
 class MainHeadingBlock extends StatelessWidget {
@@ -46,20 +45,11 @@ class SubHeadingBlock extends StatelessWidget {
       required this.titleText,
       required this.bodyText,
       this.detailText,
-      this.themeColor = 'purple',
+      this.themeColor = 'calling',
       this.icon = 'arrow'});
 
   @override
   Widget build(BuildContext context) {
-    // Make the icon color default to the theme if null
-    detailText?.forEachIndexed((index, element) {
-      element.forEachIndexed((index2, element2) {
-        if (element2['icon_color'] == null) {
-          detailText?[index][index2].addAll({'icon_color': themeColor});
-        }
-      });
-    });
-
     return Container(
       color: Colors.white,
       child: Column(
@@ -70,8 +60,19 @@ class SubHeadingBlock extends StatelessWidget {
             themeColor: themeColor,
           ),
           _DescriptionText(text: bodyText),
-          for(List<Map<String, dynamic>>detailBlock in detailText!)
-            _DetailTextBlock(text: detailBlock),
+          for (List<Map<String, dynamic>> detailBlock in detailText!)
+            // For each detailText block, create a _DetailTextBlock widget
+            // Before passing detailBlock, check if each member includes 'icon_color' and if not add the key with a value equal to tht theme
+            // If the member includes 'icon_color' then check if the value is null and if so, add the key with a value equal to tht theme
+            _DetailTextBlock(
+              textBlockData: [
+                for (Map<String, dynamic> item in detailBlock)
+                  {
+                    ...item,
+                    'icon_color': item['icon_color'] ?? themeColor,
+                  }
+              ],
+            ),
         ],
       ),
     );
@@ -92,6 +93,7 @@ class _HeaderBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // If color not found in enum, use a horrible red
     int startColor = colors_used.startColorLookup[themeColor]?[headerLevel] ??
         Colors.red.value;
     int midColor = colors_used.midColorLookup[themeColor]?[headerLevel] ??
@@ -99,7 +101,7 @@ class _HeaderBox extends StatelessWidget {
     int endColor = colors_used.endColorLookup[themeColor]?[headerLevel] ??
         Colors.red.value;
     int textColor = colors_used.textColorLookup[themeColor]?[headerLevel] ??
-        Colors.red.value;
+        Colors.black.value;
 
     return Material(
       child: Row(
@@ -185,13 +187,13 @@ class _DescriptionText extends StatelessWidget {
 
 // ***********************************************************
 class _DetailTextBlock extends StatelessWidget {
-  final List<Map<String, dynamic>>? text;
+  final List<Map<String, dynamic>>? textBlockData;
 
-  const _DetailTextBlock({super.key, required this.text});
+  const _DetailTextBlock({super.key, required this.textBlockData});
 
   @override
   Widget build(BuildContext context) {
-    if (text != null) {
+    if (textBlockData != null) {
       return Material(
         child: Row(
           children: [
@@ -211,9 +213,9 @@ class _DetailTextBlock extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
                   shrinkWrap: true,
-                  itemCount: text!.length,
+                  itemCount: textBlockData!.length,
                   itemBuilder: (_, int index) {
-                    Map<String, dynamic> currentItem = text![index];
+                    Map<String, dynamic> currentItem = textBlockData![index];
                     switch (currentItem['type']) {
                       case 'heading':
                         {
@@ -302,7 +304,7 @@ class _DetailTextSubItem extends StatelessWidget {
                 text,
                 style: TextStyle(
                   color: Colors.black,
-                  fontWeight: isHeading ? FontWeight.bold: FontWeight.normal,
+                  fontWeight: isHeading ? FontWeight.bold : FontWeight.normal,
                   fontSize: 13,
                   wordSpacing: 1.1,
                 ),
@@ -314,5 +316,3 @@ class _DetailTextSubItem extends StatelessWidget {
     );
   }
 }
-
-

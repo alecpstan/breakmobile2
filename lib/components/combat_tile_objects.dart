@@ -7,13 +7,13 @@ import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:breakmobile2/common/colors_used.dart' as colors_used;
 
-
 // ***********************************************************
 class CombatHeader extends StatelessWidget {
   final int heartsRemaining;
   final int heartsTotal;
 
-  const CombatHeader({super.key, this.heartsRemaining = 0, this.heartsTotal = 5});
+  const CombatHeader(
+      {super.key, this.heartsRemaining = 0, this.heartsTotal = 5});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,9 @@ class CombatHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     _Avatar(),
-                    Expanded(child: SizedBox(),),
+                    Expanded(
+                      child: SizedBox(),
+                    ),
                     _StatusBar(),
                   ],
                 ),
@@ -42,8 +44,12 @@ class CombatHeader extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 40), // Space to allow the name header not to overlap
-                    _HeartsTracker(heartsTotal: heartsTotal, heartsRemaining: heartsRemaining),
+                    const SizedBox(
+                        height:
+                            40), // Space to allow the name header not to overlap
+                    _HeartsTracker(
+                        heartsTotal: heartsTotal,
+                        heartsRemaining: heartsRemaining),
                     const SizedBox(height: 10),
                     const Expanded(child: _CombatValues()),
                   ],
@@ -57,9 +63,9 @@ class CombatHeader extends StatelessWidget {
     );
   }
 }
+
 // ***********************************************************
 class _Avatar extends StatelessWidget {
-
   const _Avatar({super.key});
 
   @override
@@ -79,9 +85,9 @@ class _Avatar extends StatelessWidget {
     );
   }
 }
+
 // ***********************************************************
 class _HeartsTracker extends StatelessWidget {
-
   int heartsRemaining;
   int heartsTotal;
 
@@ -95,7 +101,6 @@ class _HeartsTracker extends StatelessWidget {
         rate: heartsRemaining.toDouble(),
         itemCount: heartsTotal,
         alignment: WrapAlignment.start,
-
         spacing: 0,
         runSpacing: 0,
         direction: Axis.horizontal,
@@ -104,17 +109,17 @@ class _HeartsTracker extends StatelessWidget {
             selectedColor: Colors.redAccent,
             unSelectedColor: Color(colors_used.paleGrey),
             child: FittedBox(
-              fit: BoxFit.cover,
-              child: Icon(CupertinoIcons.heart_fill, size: 20)),
+                fit: BoxFit.cover,
+                child: Icon(CupertinoIcons.heart_fill, size: 20)),
           );
-         },
+        },
       ),
     );
   }
 }
+
 // ***********************************************************
 class _NameBadge extends StatelessWidget {
-
   String name;
 
   _NameBadge({super.key, this.name = 'Flutter McFluffkin the first'});
@@ -136,7 +141,7 @@ class _NameBadge extends StatelessWidget {
         child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left:55),
+            padding: const EdgeInsets.only(left: 55),
             child: AutoSizeText(
               name,
               overflow: TextOverflow.ellipsis,
@@ -156,6 +161,7 @@ class _NameBadge extends StatelessWidget {
     );
   }
 }
+
 // ***********************************************************
 class _StatusBar extends StatelessWidget {
   const _StatusBar({super.key});
@@ -163,7 +169,6 @@ class _StatusBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-
       child: Container(
         color: Colors.lightGreenAccent,
         height: 30,
@@ -174,7 +179,7 @@ class _StatusBar extends StatelessWidget {
           children: [
             Container(
               //height: 30,
-             // width: 10,
+              // width: 10,
               color: Colors.red,
               child: Text('status'),
               // child: Row(
@@ -202,6 +207,7 @@ class _StatusBar extends StatelessWidget {
     );
   }
 }
+
 // ***********************************************************
 class _CombatValues extends StatelessWidget {
   const _CombatValues({super.key});
@@ -214,16 +220,16 @@ class _CombatValues extends StatelessWidget {
       children: [
         Expanded(child: _AttackCombatValueTile(value: 10)),
         //Container(width:1, color: Colors.blueGrey),
-        Expanded(child: _DefenseCombatValueTile(value:17)),
+        Expanded(child: _DefenseCombatValueTile(value: 17)),
         //Container(width:1, color: Colors.blueGrey),
-        Expanded(child: _MoveCombatValueTile(value:3)),
+        Expanded(child: _MoveCombatValueTile(value: 3)),
       ],
     );
   }
 }
+
 // ***********************************************************
 class _AttackCombatValueTile extends StatelessWidget {
-
   final int value;
 
   const _AttackCombatValueTile({super.key, required this.value});
@@ -266,9 +272,9 @@ class _AttackCombatValueTile extends StatelessWidget {
     );
   }
 }
+
 // ***********************************************************
 class _DefenseCombatValueTile extends StatelessWidget {
-
   final int value;
 
   const _DefenseCombatValueTile({super.key, required this.value});
@@ -311,11 +317,16 @@ class _DefenseCombatValueTile extends StatelessWidget {
     );
   }
 }
+
 // ***********************************************************
 class _MoveCombatValueTile extends StatelessWidget {
-
   final int value;
-  static const List<String> valueToText = ['Slow', 'Average','Fast','Very Fast'];
+  static const List<String> valueToText = [
+    'Slow',
+    'Average',
+    'Fast',
+    'Very Fast'
+  ];
 
   const _MoveCombatValueTile({super.key, required this.value});
 
@@ -334,7 +345,9 @@ class _MoveCombatValueTile extends StatelessWidget {
                 SizedBox(width: 3),
                 Expanded(
                   child: AutoSizeText(
-                    (0 <= value && value <= 3) ?valueToText[value]: valueToText[1],
+                    (0 <= value && value <= 3)
+                        ? valueToText[value]
+                        : valueToText[1],
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -362,8 +375,3 @@ class _MoveCombatValueTile extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
