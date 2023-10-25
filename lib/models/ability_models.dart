@@ -1,6 +1,4 @@
 // Class holding a list of abilities
-import 'dart:convert';
-import 'dart:ffi';
 
 class AbilityList {
   List<Ability> _abilities = [];
@@ -23,16 +21,19 @@ class AbilityList {
   //Add ability to ability list
   addAbility(Ability ability) {
     abilities.add(ability);
+    //notifyListeners();
   }
 
   // Remove ability form ability list by name
   removeAbility(String abilityName) {
     abilities.removeWhere((element) => element.title == abilityName);
+    //notifyListeners();
   }
 
   // Remove ability form ability list by index
   removeAbilityByIndex(int index) {
     abilities.removeAt(index);
+    //notifyListeners();
   }
 }
 

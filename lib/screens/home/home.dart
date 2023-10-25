@@ -1,10 +1,13 @@
-import 'package:breakmobile2/data/character_data.dart';
+import 'package:breakmobile2/models/character_data.dart';
 import 'package:breakmobile2/main.dart';
-import 'package:breakmobile2/screens/home/abilitiespage.dart';
-import 'package:breakmobile2/screens/home/identitypage.dart';
-import 'package:breakmobile2/screens/home/inventorypage.dart';
+import 'package:breakmobile2/screens/home/abilities_page.dart';
+import 'package:breakmobile2/screens/home/identity_page.dart';
+import 'package:breakmobile2/screens/home/inventory_page.dart';
+import 'package:breakmobile2/screens/home/combat_header.dart';
 import 'package:flutter/material.dart';
-import 'package:breakmobile2/components/combat_tile_objects.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/primary_stat_models.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,20 +32,45 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: context.read<CharacterData>().getInitialData(),
+      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+        if ((snapshot.connectionState != ConnectionState.done)) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        // If characterData is ready, show abilities page
+        else {
+          return MainPageBody(controller: _controller);
+        }
+      },
+    );
+  }
+}
 
+class MainPageBody extends StatelessWidget {
+  PageController controller;
 
+  MainPageBody({
+    super.key,
+    required this.controller,
+  });
 
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {characterData.initialiseAbilityList();},
+          onPressed: () {
+            context.read<PrimaryStats>().takeDamage(1);
+            print(context.read<PrimaryStats>().heartsRemaining);
+          }
         ),
         body: Column(children: [
-          CombatHeader(heartsRemaining: 5, heartsTotal: 8),
+          CombatHeader(),
           const Divider(color: Colors.black),
           Expanded(
             child: PageView(
-              controller: _controller,
+              controller: controller,
               children: [
                 AbilitiesPage(),
                 InventoryPage(),
@@ -50,12 +78,6 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          // TabBar(
-          //     tabs: [
-          //       Tab(icon: Icon(Icons.bar_chart)),
-          //       Tab(icon: Icon(Icons.shopping_bag)),
-          //     ],
-          // ),
         ]),
       ),
     );

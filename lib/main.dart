@@ -1,9 +1,12 @@
+import 'package:breakmobile2/models/primary_stat_models.dart';
 import 'package:breakmobile2/screens/authenticate/login_page.dart';
 import 'package:breakmobile2/screens/home/home.dart';
 import 'package:breakmobile2/screens/wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/services.dart';
+import 'package:breakmobile2/models/character_data.dart';
 
 Future<void> main() async {
   await Supabase.initialize(
@@ -12,7 +15,13 @@ Future<void> main() async {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndtZXRjc2pxZWtkbGF6Z3JvenljIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTU2MjkxOTIsImV4cCI6MjAxMTIwNTE5Mn0.zw6e5L1y-AzHMewxWQV6Of2eGHPsZHiOZzOqf_XsfL8',
   );
 
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CharacterData>(create: (_) => CharacterData()),
+        ChangeNotifierProvider<PrimaryStats>(create: (_) => PrimaryStats()),
+      ],
+      child: MyApp(),
+  ),);
 }
 
 final supabase = Supabase.instance.client;
